@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>الرئيسية | متجر خاص بالعطور</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- خط عربي أنيق -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+
+  <!-- مكتبات التأثيرات -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r148/three.min.js"></script>
+
+  <style>
+    * { box-sizing: border-box; padding: 0; margin: 0; }
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: #fff8f0;
+      color: #3d2b1f;
+      overflow-x: hidden;
+    }
+
+    .hero {
+      height: 100vh;
+      background: linear-gradient(to bottom, #f7e6d5, #e6c8a5);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero h2 {
+      font-size: 48px;
+      font-weight: 900;
+      margin-bottom: 15px;
+    }
+
+    .hero p {
+      font-size: 20px;
+      color: #5e3d2e;
+    }
+
+    .section {
+      padding: 80px 20px;
+      text-align: center;
+    }
+
+    .section h3 {
+      font-size: 32px;
+      margin-bottom: 20px;
+    }
+
+    .section p {
+      font-size: 18px;
+      color: #6b4b3e;
+    }
+
+    /* parallax background */
+    .parallax-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 120%;
+      height: 120%;
+      background: url('https://images.unsplash.com/photo-1607082352127-f2443a06c5f3?auto=format&fit=crop&w=1950&q=80') no-repeat center center;
+      background-size: cover;
+      z-index: -1;
+      transform: translateZ(-1px) scale(1.5);
+    }
+
+    @media (max-width: 768px) {
+      .hero h2 { font-size: 32px; }
+      .hero p { font-size: 16px; }
+      .section h3 { font-size: 24px; }
+      .section p { font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  {% include "header.html" %}
+
+  <!-- بانر ترحيبي بتأثير بارالاكس -->
+  <section class="hero">
+    <div class="parallax-bg"></div>
+    <h2 class="animate-title">عطور تلامس إحساسك</h2>
+    <p class="animate-subtitle">تشكيلة فاخرة من العطور المختارة بعناية لتناسب ذوقك الراقي</p>
+  </section>
+
+  <!-- منتجات -->
+  <section class="section" id="products">
+    <h3 class="animate-section">منتجاتنا المميزة</h3>
+    <p class="animate-text">سيتم عرض العطور قريبًا هنا.</p>
+  </section>
+
+  <!-- تواصل معنا -->
+  <section class="section" id="contact">
+    <h3 class="animate-section">تواصل معنا</h3>
+    <p class="animate-text">لأي استفسار، يمكنك التواصل معنا عبر البريد أو الهاتف.</p>
+  </section>
+
+  {% include "footer.html" %}
+
+  <script>
+    // Scroll-based animation باستخدام GSAP
+    gsap.registerPlugin(ScrollTrigger);
+
+    gsap.from(".animate-title", {
+      duration: 1.5,
+      y: -50,
+      opacity: 0,
+      ease: "power4.out",
+    });
+
+    gsap.from(".animate-subtitle", {
+      duration: 1.5,
+      delay: 0.3,
+      y: 30,
+      opacity: 0,
+      ease: "power2.out",
+    });
+
+    gsap.utils.toArray(".animate-section").forEach(section => {
+      gsap.from(section, {
+        scrollTrigger: {
+          trigger: section,
+          start: "top 80%",
+        },
+        duration: 1.2,
+        opacity: 0,
+        y: 50,
+        ease: "power2.out",
+      });
+    });
+
+    gsap.utils.toArray(".animate-text").forEach(paragraph => {
+      gsap.from(paragraph, {
+        scrollTrigger: {
+          trigger: paragraph,
+          start: "top 85%",
+        },
+        duration: 1.2,
+        opacity: 0,
+        y: 20,
+        ease: "power1.out",
+      });
+    });
+  </script>
+</body>
+</html>
