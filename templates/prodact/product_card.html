@@ -6,6 +6,7 @@
       <span>لا توجد صورة</span>
     </div>
   {% endif %}
+  
   <div class="product-details">
     <h4>{{ product.name }}</h4>
     <p class="desc">{{ product.description|truncatechars:100 }}</p>
@@ -37,10 +38,12 @@
     background-color: #eee;
   }
 
-  .product-image.no-image {
+  .no-image {
     display: flex;
     align-items: center;
     justify-content: center;
+    height: 240px;
+    background-color: #f3f3f3;
     color: #999;
     font-size: 16px;
     font-weight: bold;
@@ -90,7 +93,7 @@
     buttons.forEach(button => {
       button.addEventListener("click", () => {
         alert("تمت إضافة المنتج إلى السلة ✅");
-        // هنا يمكنك لاحقاً ربطه بالسلة الحقيقية
+        // يمكنك هنا لاحقًا ربطها بنظام السلة الفعلي
       });
     });
   });

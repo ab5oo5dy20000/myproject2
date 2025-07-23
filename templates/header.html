@@ -3,12 +3,43 @@
   <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
     <h1 style="margin: 0; font-weight: 900; color: #4a2d1f;">متجر خاص بالعطور</h1>
 
-    <nav style="display: flex; flex-wrap: wrap; gap: 15px; margin-top: 10px;">
+    <nav style="display: flex; flex-wrap: wrap; gap: 15px; margin-top: 10px; align-items: center; position: relative;">
       <a href="/" style="color: #4a2d1f; text-decoration: none; font-weight: bold;">الرئيسية</a>
       <a href="#products" style="color: #4a2d1f; text-decoration: none; font-weight: bold;">العطور</a>
       <a href="#contact" style="color: #4a2d1f; text-decoration: none; font-weight: bold;">تواصل معنا</a>
-      <a href="/login/" style="color: white; background-color: #4a2d1f; padding: 6px 12px; border-radius: 6px; font-weight: bold; text-decoration: none;">تسجيل الدخول</a>
-      <a href="/register/" style="color: #4a2d1f; border: 2px solid #4a2d1f; padding: 6px 12px; border-radius: 6px; font-weight: bold; text-decoration: none;">إنشاء حساب</a>
+
+      {% if user.is_authenticated %}
+        <!-- أيقونة المستخدم -->
+        <div style="position: relative;">
+          <button onclick="toggleMenu()" style="background: none; border: none; cursor: pointer;">
+            <img src="https://cdn-icons-png.flaticon.com/512/1077/1077063.png" alt="حسابي" width="30" height="30" />
+          </button>
+
+          <div id="userMenu" style="display: none; position: absolute; top: 40px; right: 0; background: white; border: 1px solid #ccc; border-radius: 8px; min-width: 160px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); z-index: 100;">
+            <a href="/profile/" style="display: block; padding: 10px; color: #333; text-decoration: none;">ملفي الشخصي</a>
+            <a href="/logout/" style="display: block; padding: 10px; color: #c0392b; text-decoration: none;">تسجيل الخروج</a>
+          </div>
+        </div>
+      {% else %}
+        <!-- الأزرار تظهر فقط إذا لم يكن المستخدم مسجل دخول -->
+        <a href="/login/" style="color: white; background-color: #4a2d1f; padding: 6px 12px; border-radius: 6px; font-weight: bold; text-decoration: none;">تسجيل الدخول</a>
+        <a href="/register/" style="color: #4a2d1f; border: 2px solid #4a2d1f; padding: 6px 12px; border-radius: 6px; font-weight: bold; text-decoration: none;">إنشاء حساب</a>
+      {% endif %}
     </nav>
   </div>
 </header>
+
+<script>
+  function toggleMenu() {
+    const menu = document.getElementById('userMenu');
+    menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+  }
+
+  // إغلاق القائمة عند الضغط خارجها
+  window.onclick = function(e) {
+    if (!e.target.closest('button') && !e.target.closest('#userMenu')) {
+      const menu = document.getElementById('userMenu');
+      if (menu) menu.style.display = 'none';
+    }
+  }
+</script>

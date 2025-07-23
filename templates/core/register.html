@@ -39,6 +39,23 @@
       font-size: 26px;
     }
 
+    .message-list {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 20px;
+    }
+
+    .message-list li {
+      background-color: #ff4d4d;
+      color: white;
+      padding: 10px 15px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      text-align: center;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
     label {
       display: block;
       margin-bottom: 6px;
@@ -95,7 +112,16 @@
 
   <div class="register-box" id="registerBox">
     <h1>إنشاء حساب جديد</h1>
-    <form method="post">
+
+    {% if messages %}
+      <ul class="message-list">
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    <form method="post" action="">
       {% csrf_token %}
 
       <label for="username">اسم المستخدم:</label>

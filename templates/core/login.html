@@ -1,10 +1,11 @@
+<!-- C:\Users\ASUS\myproject2\templates\core\login.html -->
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>تسجيل الدخول</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;700&display=swap" rel="stylesheet" />
 
   <!-- GSAP for animations -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -87,12 +88,28 @@
     .register-link a:hover {
       text-decoration: underline;
     }
+
+    .error {
+      color: yellow;
+      margin-bottom: 15px;
+      font-size: 14px;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
 
   <div class="login-box" id="loginBox">
     <h1>مرحبًا بك في صفحة تسجيل الدخول</h1>
+    
+    {% if messages %}
+      <div class="error">
+        {% for msg in messages %}
+          {{ msg }}
+        {% endfor %}
+      </div>
+    {% endif %}
+
     <form method="post">
       {% csrf_token %}
       <label for="email">البريد الإلكتروني:</label>
@@ -105,7 +122,7 @@
     </form>
 
     <div class="register-link">
-      ليس لديك حساب؟ <a href="/register/">سجّل الآن</a>
+      ليس لديك حساب؟ <a href="{% url 'core:register' %}">سجّل الآن</a>
     </div>
   </div>
 
