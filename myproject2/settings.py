@@ -1,5 +1,6 @@
 from pathlib import Path
 import os
+import cloudinary  # ✅ تم إضافته هنا لتكوين Cloudinary
 
 # المسار الجذري للمشروع
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -11,7 +12,6 @@ ALLOWED_HOSTS = []
 
 # التطبيقات المثبتة
 INSTALLED_APPS = [
-    # تطبيقات Django الأساسية
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -24,7 +24,7 @@ INSTALLED_APPS = [
     'prodact.apps.ProdactConfig',
     'core.apps.CoreConfig',
 
-    # تطبيقات Cloudinary
+    # Cloudinary
     'cloudinary_storage',
     'cloudinary',
 ]
@@ -43,7 +43,7 @@ MIDDLEWARE = [
 # إعدادات الروابط
 ROOT_URLCONF = 'myproject2.urls'
 
-# إعدادات القوالب (Templates)
+# إعدادات القوالب
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -63,7 +63,7 @@ TEMPLATES = [
 # تطبيق WSGI
 WSGI_APPLICATION = 'myproject2.wsgi.application'
 
-# إعدادات قاعدة البيانات (SQLite)
+# قاعدة البيانات
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -85,18 +85,26 @@ TIME_ZONE = 'Asia/Riyadh'
 USE_I18N = True
 USE_TZ = True
 
-# الملفات الثابتة (Static)
+# الملفات الثابتة
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# ✅ إعدادات Cloudinary لتخزين ملفات media
+# ✅ Cloudinary: تخزين الصور
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'ds6eo69at',
     'API_KEY': '775549883648554',
     'API_SECRET': 'XkYaYHLxhTobh7gwbosTlKpwWIg'
 }
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+# ✅ الحل النهائي لتفعيل Cloudinary في عرض الصور
+cloudinary.config(
+    cloud_name = "ds6eo69at",
+    api_key = "775549883648554",
+    api_secret = "XkYaYHLxhTobh7gwbosTlKpwWIg",
+    secure = True
+)
 
 # نوع المفتاح الافتراضي للجداول
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

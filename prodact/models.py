@@ -1,5 +1,6 @@
 from django.db import models
 from store.models import Category
+from cloudinary.models import CloudinaryField
 
 class Product(models.Model):
     name = models.CharField(
@@ -26,8 +27,8 @@ class Product(models.Model):
         verbose_name="القسم"
     )
 
-    image = models.ImageField(
-        upload_to='products/',
+    # ✅ تصحيح CloudinaryField: بدون تمرير 'image'
+    image = CloudinaryField(
         blank=True,
         null=True,
         verbose_name="صورة المنتج"
