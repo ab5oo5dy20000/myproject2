@@ -96,6 +96,19 @@ CLOUDINARY_STORAGE = {
     'API_KEY': '775549883648554',
     'API_SECRET': 'XkYaYHLxhTobh7gwbosTlKpwWIg'
 }
+
+
+# إعدادات الإيميل باستخدام Gmail
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+# بيانات حسابك على Gmail (غيّرهم)
+EMAIL_HOST_USER = 'ab5oo5dy20000@gmail.com'
+EMAIL_HOST_PASSWORD = 'naqj zimt ewgp rzns'
+#كلمة مرور التطبيق التي تم إنشاؤها
+
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # ✅ الحل النهائي لتفعيل Cloudinary في عرض الصور
