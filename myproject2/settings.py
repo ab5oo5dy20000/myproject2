@@ -1,14 +1,19 @@
 from pathlib import Path
 import os
-import cloudinary  # ✅ تم إضافته هنا لتكوين Cloudinary
+import environ
+import cloudinary
 
 # المسار الجذري للمشروع
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# تحميل متغيرات البيئة من ملف .env
+env = environ.Env()
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+
 # إعدادات الأمان
-SECRET_KEY = 'django-insecure-#+5et@nrtohzao05u1%ma1+55jqjox+vor#h!eo3rc3@+k4kzf'
-DEBUG = True
-ALLOWED_HOSTS = []
+SECRET_KEY = env('SECRET_KEY', default='django-insecure-key')
+DEBUG = env.bool('DEBUG', default=True)
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=[])
 
 # التطبيقات المثبتة
 INSTALLED_APPS = [
@@ -63,12 +68,12 @@ TEMPLATES = [
 # تطبيق WSGI
 WSGI_APPLICATION = 'myproject2.wsgi.application'
 
-# قاعدة البيانات
+# قاعدة البيانات: استخدام PostgreSQL في الإنتاج، وSQLite في التطوير
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': env.db_url(
+        'DATABASE_URL',
+        default=f'sqlite:///{os.path.join(BASE_DIR, "db.sqlite3")}'
+    )
 }
 
 # تحقق كلمات المرور
@@ -90,34 +95,29 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# ✅ Cloudinary: تخزين الصور
+# ✅ إعداد Cloudinary
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'ds6eo69at',
-    'API_KEY': '775549883648554',
-    'API_SECRET': 'XkYaYHLxhTobh7gwbosTlKpwWIg'
+    'CLOUD_NAME': env('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': env('CLOUDINARY_API_KEY'),
+    'API_SECRET': env('CLOUDINARY_API_SECRET'),
 }
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
+# ✅ تهيئة Cloudinary
+cloudinary.config(
+    cloud_name = env('CLOUDINARY_CLOUD_NAME'),
+    api_key = env('CLOUDINARY_API_KEY'),
+    api_secret = env('CLOUDINARY_API_SECRET'),
+    secure = True
+)
 
-# إعدادات الإيميل باستخدام Gmail
+# ✅ إعدادات البريد الإلكتروني (Gmail)
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 
-# بيانات حسابك على Gmail (غيّرهم)
-EMAIL_HOST_USER = 'ab5oo5dy20000@gmail.com'
-EMAIL_HOST_PASSWORD = 'naqj zimt ewgp rzns'
-#كلمة مرور التطبيق التي تم إنشاؤها
-
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-
-# ✅ الحل النهائي لتفعيل Cloudinary في عرض الصور
-cloudinary.config(
-    cloud_name = "ds6eo69at",
-    api_key = "775549883648554",
-    api_secret = "XkYaYHLxhTobh7gwbosTlKpwWIg",
-    secure = True
-)
-
-# نوع المفتاح الافتراضي للجداول
+# النوع الافتراضي للمفتاح
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
