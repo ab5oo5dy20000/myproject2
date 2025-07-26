@@ -6,7 +6,7 @@
       <span>لا توجد صورة</span>
     </div>
   {% endif %}
-  
+
   <div class="product-details">
     <h4>{{ product.name }}</h4>
     <p class="desc">{{ product.description|truncatechars:100 }}</p>
@@ -17,6 +17,9 @@
 
 <style>
   .product-card {
+    width: 100%;
+    max-width: 320px;
+    min-height: 480px; /* ✅ تثبيت الارتفاع */
     background: #ffffff;
     border-radius: 15px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.08);
@@ -25,6 +28,8 @@
     display: flex;
     flex-direction: column;
     text-align: center;
+    justify-content: space-between;
+    margin: auto;
   }
 
   .product-card:hover {
@@ -51,6 +56,10 @@
 
   .product-details {
     padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1;
   }
 
   .product-details h4 {
@@ -63,6 +72,8 @@
     font-size: 14px;
     color: #6b4b3e;
     margin-bottom: 10px;
+    min-height: 40px;
+    overflow: hidden;
   }
 
   .product-details .price {
@@ -80,6 +91,7 @@
     cursor: pointer;
     font-size: 14px;
     transition: background-color 0.3s ease;
+    margin-top: auto;
   }
 
   .add-to-cart:hover {
@@ -93,7 +105,6 @@
     buttons.forEach(button => {
       button.addEventListener("click", () => {
         alert("تمت إضافة المنتج إلى السلة ✅");
-        // يمكنك هنا لاحقًا ربطها بنظام السلة الفعلي
       });
     });
   });
