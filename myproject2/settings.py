@@ -37,6 +37,7 @@ INSTALLED_APPS = [
 # الوسيطات (Middleware)
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # ✅ دعم whitenoise
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -68,7 +69,7 @@ TEMPLATES = [
 # تطبيق WSGI
 WSGI_APPLICATION = 'myproject2.wsgi.application'
 
-# قاعدة البيانات: استخدام PostgreSQL في الإنتاج، وSQLite في التطوير
+# قاعدة البيانات: PostgreSQL في الإنتاج، SQLite في التطوير
 DATABASES = {
     'default': env.db_url(
         'DATABASE_URL',
@@ -95,6 +96,10 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+# ✅ دعم تخزين ملفات static للإنتاج
+if not DEBUG:
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 # ✅ إعداد Cloudinary
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': env('CLOUDINARY_CLOUD_NAME'),
@@ -119,5 +124,5 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = env('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 
-# النوع الافتراضي للمفتاح
+# إعداد النوع الافتراضي للمفاتيح
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
